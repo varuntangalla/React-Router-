@@ -1,48 +1,33 @@
-import React from 'react'
-import { saveUser } from './api'
-import Form from '.Form'
-import { Redirect } from 'react-router-dom'
 
 
+import queryString from 'query-string' 
 
 
-class Register extends React.Component {
+// eslint-disable-next-line no-unused-expressions
+// eslint-disable-next-line react/react-in-jsx-scope
+// eslint-disable-next-line no-unused-expressions
+<Route path='/' component={Dashboard} />
 
-  state = {
-    toDashboard: false,
+// eslint-disable-next-line no-undef
+class Dashboard extends Component { 
+
+  componentDidMount() {
+
+    console.log(this.props.location.search)
+
+    const values = queryString.parse(this.props.location.search)
+    
+    console.log(values.sorton)
+
+    // eslint-disable-next-line no-undef
+    fetchDashboardData(values.sorton)
   }
 
-  handleSubmit = ( user ) => {
-
-    saveUser(user).then(() => this.setState( () => ({
-
-      toDashboard: true
-
-    })))
-
-  }
-
+  // eslint-disable-next-line react/require-render-return
   render() {
-    if(this.state.toDashboard === true){
-
-      // eslint-disable-next-line no-unused-expressions
-      <Redirect to='/dashboard' /> 
-
-      //Programmatically navigate using react router 
 
 
-    }
 
-    return (
-
-      <div> 
-        <h1>Register</h1> 
-        <Form onSubmit={this.handleSubmit} />
-      </div>
-
-
-    )
   }
-}
 
-export default App;
+}
