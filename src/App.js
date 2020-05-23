@@ -1,48 +1,81 @@
 import React, { Component } from 'react'
-
 import { 
 
   BrowserRouter as Router,
   Route,
   Link,
-  Switch
 } from 'react-router-dom'
 
-const About = () => <h2>About</h2>
+const routes = [
+  {
+    path: '/',
+    exact: true,
+    sidebar: () => <div>home!</div>,
+    main: () => <h2>Home</h2>,
+  },
+  {
+    path: '/bubblegum',
+    exact: true,
+    sidebar: () => <div>bubblegum!</div>,
+    main: () => <h2>Bubblegum</h2>,
+  },
+  {
+    path: '/shoelaces',
+    sidebar: () => <div>shoelaces!</div>,
+    main: () => <h2>Shoelaces</h2>
+  },
+]
 
-const Company = () => <h2>Company</h2>
 
-const User = ({ match }) => (
-  <div> 
-    <h2>User: {match.params.user}</h2>
-  </div>
-)
-class App extends Component { 
 
-  render() {
+class App extends Component {
 
-    return (
+  render(){
+
+    return(
       <Router>
-        <div>
+        <div style={{display: 'flex'}}>
+          <div style={{
+             padding: '10px',
+             width: '40%',
+             background: '#f0f0f0'
+          }}>
 
-          <ul>
-            <li><Link to='/about'>About</Link></li>
-            <li><Link to='/company'>Company</Link></li>
-            <li><Link to='/kim'>Kim</Link></li>
-            <li><Link to='/Varun'>Varun</Link></li>
-          </ul>
+            <ul style={{listStyleType: 'none', padding: 0}}>
 
-          <Switch>
-        <Route path='/about' component={About} />
-        <Route path='/company' component={Company} />
-        <Route path='/:user' component={User} />
-          </Switch>
-       
+              <li><Link to='/'>Home</Link></li>
+              <li><Link to='/bubblegum'>Bubblegum</Link></li>
+              <li><Link to='/shoelaces'>Shoelaces</Link></li>
+            </ul>
+
+            {routes.map((route)=>(
+
+              <Route 
+                key={route.path}
+                path={route.path}
+                exact={route.exact}
+                component={route.sidebar}
+              />
+            ))}
+
+            <div style={{flex: 1, padding: '10px'}}>
+             {routes.map((route) => (
+               <Route 
+                  key={route.path}
+                  path={route.path} 
+                  exact={route.exact}
+                  component={route.main}
+                  />
+             ))} 
+            </div>
+          </div>  
         </div>
       </Router>
     )
   }
+
+
 }
 
 
-export default App
+export default App;
