@@ -1,55 +1,44 @@
-import React, { Component } from 'react';
-import { 
-  Route,
-  Link,
-  BrowserRouter as Router,
-} from 'react-router-dom'
-
-import Settings from './Settings'
-import Dashboard from './Dashboard'
-import { fetchSettings, fetchDashboard } from './api'
+import React from 'react'
+import { saveUser } from './api'
+import Form from '.Form'
+import { Redirect } from 'react-router-dom'
 
 
 
-const routes = [
-  {
-    path: '/settings',
-    component: Settings, 
-    fetchIntialData: (id) => fetchSettings(id),
-  },
-  {
-    path: '/dashboard',
-    component: Dashboard,
-    fetchIntialData: (id) => fetchDashboard(id)
+
+class Register extends React.Component {
+
+  state = {
+    toDashboard: false,
   }
-]
 
+  handleSubmit = ( user ) => {
 
+    saveUser(user).then(() => this.setState( () => ({
 
+      toDashboard: true
 
+    })))
 
-class App extends Component {
+  }
+
   render() {
+    if(this.state.toDashboard === true){
+
+      // eslint-disable-next-line no-unused-expressions
+      <Redirect to='/dashboard' /> 
+
+
+    }
+
     return (
-      <Router>
-        <div style={{ width: 1000, margin: '0 auto' }}> 
 
-        <ul> 
-          <li><Link to='/settings'>Settings</Link> </li>
-          <li><Link to='/dashboard'>Dashboard</Link> </li>
-        </ul>
+      <div> 
+        <h1>Register</h1> 
+        <Form onSubmit={this.handleSubmit} />
+      </div>
 
-        <hr /> 
 
-        {routes.map(({ path, component: C, fetchInitialData}) =>(
-
-          <Route 
-          path={path}
-          render={(props) => <C {...props} fetchInitialData={fetchInitialData} /> }
-          />
-        ))}
-        </div>
-      </Router>
     )
   }
 }
