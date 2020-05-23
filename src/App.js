@@ -28,6 +28,8 @@ class Register extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       <Redirect to='/dashboard' /> 
 
+      //Programmatically navigate using react router 
+
 
     }
 
