@@ -5,27 +5,49 @@ import {
   BrowserRouter as Router,
 } from 'react-router-dom'
 
+import Settings from './Settings'
+import Dashboard from './Dashboard'
+import { fetchSettings, fetchDashboard } from './api'
 
-const Child = ({ match }) => console.log('match', match) || (
-  <div> 
-    <h3>ID: {match.params.id} </h3>
-  </div>
-)
+
+
+const routes = [
+  {
+    path: '/settings',
+    component: Settings, 
+    fetchIntialData: (id) => fetchSettings(id),
+  },
+  {
+    path: '/dashboard',
+    component: Dashboard,
+    fetchIntialData: (id) => fetchDashboard(id)
+  }
+]
+
+
+
+
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <div> 
-          <h2>Accounts </h2>
-          <ul>
-            <li><Link to='/netflix'>Netflix</Link></li>
-            <li><Link to='/zillow-group'>Zillow Group</Link></li>
-            <li><Link to='/yahoo'>Yahoo</Link></li>
-            <li><Link to='/modus-create'>Modus Create</Link></li>
-          </ul>
+        <div style={{ width: 1000, margin: '0 auto' }}> 
 
-          <Route path='/:id' component={Child} /> 
+        <ul> 
+          <li><Link to='/settings'>Settings</Link> </li>
+          <li><Link to='/dashboard'>Dashboard</Link> </li>
+        </ul>
+
+        <hr /> 
+
+        {routes.map(({ path, component: C, fetchInitialData}) =>(
+
+          <Route 
+          path={path}
+          render={(props) => <C {...props} fetchInitialData={fetchInitialData} /> }
+          />
+        ))}
         </div>
       </Router>
     )
