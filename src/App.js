@@ -1,33 +1,48 @@
+import React, { Component } from 'react'
 
+import { 
 
-import queryString from 'query-string' 
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch
+} from 'react-router-dom'
 
+const About = () => <h2>About</h2>
 
-// eslint-disable-next-line no-unused-expressions
-// eslint-disable-next-line react/react-in-jsx-scope
-// eslint-disable-next-line no-unused-expressions
-<Route path='/' component={Dashboard} />
+const Company = () => <h2>Company</h2>
 
-// eslint-disable-next-line no-undef
-class Dashboard extends Component { 
+const User = ({ match }) => (
+  <div> 
+    <h2>User: {match.params.user}</h2>
+  </div>
+)
+class App extends Component { 
 
-  componentDidMount() {
-
-    console.log(this.props.location.search)
-
-    const values = queryString.parse(this.props.location.search)
-    
-    console.log(values.sorton)
-
-    // eslint-disable-next-line no-undef
-    fetchDashboardData(values.sorton)
-  }
-
-  // eslint-disable-next-line react/require-render-return
   render() {
 
+    return (
+      <Router>
+        <div>
 
+          <ul>
+            <li><Link to='/about'>About</Link></li>
+            <li><Link to='/company'>Company</Link></li>
+            <li><Link to='/kim'>Kim</Link></li>
+            <li><Link to='/Varun'>Varun</Link></li>
+          </ul>
 
+          <Switch>
+        <Route path='/about' component={About} />
+        <Route path='/company' component={Company} />
+        <Route path='/:user' component={User} />
+          </Switch>
+       
+        </div>
+      </Router>
+    )
   }
-
 }
+
+
+export default App
